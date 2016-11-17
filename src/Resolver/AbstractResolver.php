@@ -9,6 +9,8 @@
 namespace GraphQLMiddleware\Resolver;
 
 
+use Interop\Container\ContainerInterface;
+
 abstract class AbstractResolver implements ResolverInterface
 {
 
@@ -18,9 +20,16 @@ abstract class AbstractResolver implements ResolverInterface
      * AbstractResolver constructor.
      * @param $container
      */
-    public function __construct($container)
+    public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
     }
 
+    /**
+     * @return ContainerInterface
+     */
+    public function getContainer()
+    {
+        return $this->container;
+    }
 }

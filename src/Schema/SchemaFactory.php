@@ -6,7 +6,6 @@ use GraphQLMiddleware\Exception\ServiceNotCreatedException;
 use Interop\Container\ContainerInterface;
 use Interop\Container\Exception\ContainerException;
 use Youshido\GraphQL\Schema\AbstractSchema;
-use Youshido\GraphQL\Schema\Schema;
 
 class SchemaFactory {
 

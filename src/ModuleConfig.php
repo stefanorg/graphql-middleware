@@ -21,13 +21,20 @@ class ModuleConfig
                 "factories" => [
                     'graphql.processor' => ProcessorFactory::class,
                     'graphql.schema'    => Schema\SchemaFactory::class,
-                    GraphQLMiddleware::class => GraphQLMiddlewareFactory::class
-                ]
+                    GraphQLMiddleware::class => GraphQLMiddlewareFactory::class,
+                    GraphQLMiddlewareDelegatorFactory::class => GraphQLMiddlewareDelegatorFactory::class
+                ],
+                'delegators' => [
+                    GraphQLMiddleware::class => [
+                        GraphQLMiddlewareDelegatorFactory::class
+                    ]
+                ],
             ],
+
             "middleware_pipeline" => [
                 [
                     'middleware' => [
-                        GraphQLMiddleware::class,
+                        GraphQLMiddleware::class
                     ],
                     'priority' => 1000,
                 ],

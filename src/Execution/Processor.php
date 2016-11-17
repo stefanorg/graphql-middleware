@@ -51,7 +51,9 @@ class Processor extends BaseProcessor
                 if ($this->isServiceReference($resolveFunc)) {
                     $service = $this->getResolverService($resolveFunc, $field->getName());
 
-                    return $service->resolve($parentValue, $arguments, $resolveInfo);
+                    $method = $this->getMethodName($resolveFunc);
+
+                    return $service->$method($parentValue, $arguments, $resolveInfo);
                 }
 
                 return $resolveFunc($parentValue, $arguments, $resolveInfo);
@@ -93,11 +95,24 @@ class Processor extends BaseProcessor
 
     private function getServiceName($resolveFunc)
     {
-        if (is_array($resolveFunc) && count($resolveFunc)===1){
+        if (is_array($resolveFunc)){
             $resolveFunc = $resolveFunc[0];
         }
 
         return $resolveFunc;
+    }
+
+    /**
+     * Return the resolve method name as specified in configuration.
+     * If none found return the "resolve" method name as default
+     * @param $resolveFunc
+     * @return mixed|string
+     */
+    private function getMethodName($resolveFunc) {
+        if (is_array($resolveFunc) && count($resolveFunc)===2) {
+            return $resolveFunc[1];
+        }
+        return "resolve";
     }
 
     private function isServiceReference($resolveFunc)
