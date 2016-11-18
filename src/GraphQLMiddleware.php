@@ -46,6 +46,7 @@ class GraphQLMiddleware
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $next = null)
     {
+
         if (!$this->isGraphQLRequest($request)) {
             return $next($request, $response);
         }
@@ -80,7 +81,9 @@ class GraphQLMiddleware
             return false;
         }
 
-        $request_headers = explode(",", $request->getHeaderLine("content-type"));
+        $request_headers = array_map(function($header){
+            return trim($header);
+        }, explode(",", $request->getHeaderLine("content-type")));
 
         foreach ($this->graphql_headers as $allowed_header) {
             if (in_array($allowed_header, $request_headers)){
