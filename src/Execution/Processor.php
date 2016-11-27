@@ -5,12 +5,14 @@ namespace GraphQLMiddleware\Execution;
 use GraphQLMiddleware\Container\ContainerAwareInterface;
 use GraphQLMiddleware\Execution\Context\ExecutionContext;
 use GraphQLMiddleware\Resolver\ResolverInterface;
+use GraphQLMiddleware\Validation\ValidatableFieldInterface;
 use Interop\Container\ContainerInterface;
 use Youshido\GraphQL\Execution\Processor as BaseProcessor;
 use Youshido\GraphQL\Field\Field;
 use Youshido\GraphQL\Field\FieldInterface;
 use Youshido\GraphQL\Parser\Ast\Field as AstField;
 use Youshido\GraphQL\Parser\Ast\Interfaces\FieldInterface as AstFieldInterface;
+use Youshido\GraphQL\Parser\Ast\Mutation;
 use Youshido\GraphQL\Parser\Ast\Query as AstQuery;
 use Youshido\GraphQL\Schema\AbstractSchema;
 use Youshido\GraphQL\Type\TypeService;
@@ -44,6 +46,18 @@ class Processor extends BaseProcessor
         $arguments = $this->parseArgumentsValues($field, $ast);
         $astFields = $ast instanceof AstQuery ? $ast->getFields() : [];
         $resolveInfo = $this->createResolveInfo($field, $astFields);
+
+        //allow userland validation for mutation args
+        if ($ast instanceof Mutation) {
+            if ($field instanceof ValidatableFieldInterface) {
+
+                $field->validate($arguments, $resolveInfo);
+
+                if ($this->getExecutionContext()->hasErrors()) {
+                    return null;
+                }
+            }
+        }
 
         if ($field instanceof Field) {
             if ($resolveFunc = $field->getConfig()->getResolveFunction()) {
