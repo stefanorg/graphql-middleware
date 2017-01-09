@@ -9,12 +9,6 @@ use Zend\Diactoros\Response\JsonResponse;
 
 class GraphQLMiddleware
 {
-
-    /**
-     * @var string The graphql uri path to match against
-     */
-    private $graphql_uri = "/graphql";
-
     /**
      * @var array The graphql headers
      */
@@ -67,12 +61,7 @@ class GraphQLMiddleware
     }
 
     private function isGraphQLRequest(ServerRequestInterface $request) {
-        return $this->hasUri($request) || $this->hasGraphQLHeader($request);
-    }
-
-    private function hasUri(ServerRequestInterface $request)
-    {
-        return  $this->graphql_uri === $request->getUri()->getPath();
+        return $this->hasGraphQLHeader($request);
     }
 
     private function hasGraphQLHeader(ServerRequestInterface $request)
