@@ -9,15 +9,14 @@
 namespace GraphQLMiddleware\Field;
 
 use GraphQLMiddleware\Container\ContainerAwareInterface;
-use GraphQLMiddleware\Exception\ValidationException;
 use GraphQLMiddleware\Validation\ValidatableFieldInterface;
 use Interop\Container\ContainerInterface;
 use Respect\Validation\Exceptions\NestedValidationException;
 use Respect\Validation\Exceptions\ValidationException as RespectValidationException;
 use Respect\Validation\Validator;
+use Youshido\GraphQL\Exception\DatableResolveException;
 use Youshido\GraphQL\Execution\ResolveInfo;
 use Youshido\GraphQL\Field\AbstractField;
-use Youshido\GraphQL\Validator\Exception\DatableResolveException;
 
 abstract class AbstractContainerAwareField extends AbstractField implements ContainerAwareInterface, ValidatableFieldInterface
 {
@@ -45,7 +44,7 @@ abstract class AbstractContainerAwareField extends AbstractField implements Cont
     /**
      * Customize validation exception based on type of exception
      *
-*@param $e \Exception
+     * @param $e \Exception
      * @param $field_name string
      */
     private function prepareValidationException(\Exception $e, string $field_name) {

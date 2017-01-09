@@ -47,6 +47,10 @@ class Processor extends BaseProcessor
         $astFields = $ast instanceof AstQuery ? $ast->getFields() : [];
         $resolveInfo = $this->createResolveInfo($field, $astFields);
 
+        if ($this->shouldInjectContainer($field)) {
+            $field->setContainer($this->container);
+        }
+
         //allow userland validation for mutation args
         if ($ast instanceof Mutation) {
             if ($field instanceof ValidatableFieldInterface) {
@@ -75,13 +79,13 @@ class Processor extends BaseProcessor
                 return TypeService::getPropertyValue($parentValue, $field->getName());
             }
         } else {
-            //AbstractContainerAwareField
-            if (in_array(ContainerAwareInterface::class, class_implements($field))) {
-                /** @var $field ContainerAwareInterface */
-                $field->setContainer($this->container);
-            }
+
             return $field->resolve($parentValue, $arguments, $resolveInfo);
         }
+    }
+
+    private function shouldInjectContainer($field) {
+        return in_array(ContainerAwareInterface::class, class_implements($field));
     }
 
     /**
