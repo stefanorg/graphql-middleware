@@ -14,7 +14,7 @@ use Youshido\GraphQL\Schema\AbstractSchema;
 
 final class ProcessorFactory
 {
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $container, $requestedName)
     {
         /** @var AbstractSchema $schema */
         $schema = $container->get("graphql.schema");
