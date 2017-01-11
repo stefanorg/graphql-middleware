@@ -36,6 +36,7 @@ class ModuleConfig
                     'middleware' => [
                         GraphQLMiddleware::class
                     ],
+                    'path' => '/api/graphql',
                     'priority' => 1000,
                 ],
             ]
