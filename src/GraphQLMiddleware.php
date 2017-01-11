@@ -60,8 +60,9 @@ class GraphQLMiddleware
         return new JsonResponse($res);
     }
 
-    private function isGraphQLRequest(ServerRequestInterface $request) {
-        return $this->hasGraphQLHeader($request);
+    private function isGraphQLRequest(ServerRequestInterface $request)
+    {
+        return $request->getMethod() === 'GET' || $this->hasGraphQLHeader($request);
     }
 
     private function hasGraphQLHeader(ServerRequestInterface $request)
