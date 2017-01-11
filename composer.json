@@ -1,5 +1,5 @@
 {
-    "name": "bertrandgauthier/graphql-middleware",
+    "name": "stefanorg/graphql-middleware",
     "type": "library",
     "description": "GraphQL Middleware for container interop",
     "homepage": "https://github.com/stefanorg/graphql-middleware",
