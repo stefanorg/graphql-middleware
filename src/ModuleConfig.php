@@ -22,6 +22,7 @@ class ModuleConfig
                     'graphql.processor' => ProcessorFactory::class,
                     'graphql.schema'    => Schema\SchemaFactory::class,
                     GraphQLMiddleware::class => GraphQLMiddlewareFactory::class,
+                    GraphQLMiddlewareDelegatorFactory::class => GraphQLMiddlewareDelegatorFactory::class,
                 ],
                 'delegators' => [
                     GraphQLMiddleware::class => [
