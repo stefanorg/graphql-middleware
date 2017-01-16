@@ -13,6 +13,12 @@ use RuntimeException as SplRuntimeException;
 
 class ServiceNotCreatedException extends SplRuntimeException implements ContainerException
 {
+    public static function invalidMiddlewareConfigurationProvided()
+    {
+        return new static (
+            "Middleware URI not found. You must set middleware URI parameter in graphql configuration."
+        );
+    }
 
     public static function invalidSchemaConfigurationProvided()
     {
