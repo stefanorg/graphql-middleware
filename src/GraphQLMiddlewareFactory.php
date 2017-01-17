@@ -2,6 +2,7 @@
 
 namespace GraphQLMiddleware;
 
+use GraphQLMiddleware\Exception\ServiceNotCreatedException;
 use Interop\Container\ContainerInterface;
 
 class GraphQLMiddlewareFactory
@@ -10,6 +11,12 @@ class GraphQLMiddlewareFactory
     {
         $processor = $container->get("graphql.processor");
 
-        return new GraphQLMiddleware($processor);
+        $config = $container->get("config");
+
+        if (! isset($config['graphql']['uri'])) {
+            throw ServiceNotCreatedException::invalidMiddlewareConfigurationProvided();
+        }
+
+        return new GraphQLMiddleware($processor, $config['graphql']['uri']);
     }
 }

@@ -8,7 +8,6 @@
 
 namespace GraphQLMiddleware;
 
-
 use GraphQLMiddleware\Error\JsonErrorResponseGenerator;
 use Interop\Container\ContainerInterface;
 use Zend\Diactoros\Response;

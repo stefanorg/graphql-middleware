@@ -1,12 +1,5 @@
 <?php
 
-/**
- * Created by PhpStorm.
- * User: stefano
- * Date: 15/11/16
- * Time: 11.17
- */
-
 namespace GraphQLMiddleware;
 
 use GraphQLMiddleware\Execution\ProcessorFactory;
@@ -22,7 +15,7 @@ class ModuleConfig
                     'graphql.processor' => ProcessorFactory::class,
                     'graphql.schema'    => Schema\SchemaFactory::class,
                     GraphQLMiddleware::class => GraphQLMiddlewareFactory::class,
-                    GraphQLMiddlewareDelegatorFactory::class => GraphQLMiddlewareDelegatorFactory::class
+                    GraphQLMiddlewareDelegatorFactory::class =>  GraphQLMiddlewareDelegatorFactory::class,
                 ],
                 'delegators' => [
                     GraphQLMiddleware::class => [
@@ -32,7 +25,7 @@ class ModuleConfig
             ],
 
             "middleware_pipeline" => [
-                [
+                'graphql' => [
                     'middleware' => [
                         GraphQLMiddleware::class
                     ],

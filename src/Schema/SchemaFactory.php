@@ -6,6 +6,7 @@ use GraphQLMiddleware\Exception\ServiceNotCreatedException;
 use Interop\Container\ContainerInterface;
 use Interop\Container\Exception\ContainerException;
 use Youshido\GraphQL\Schema\AbstractSchema;
+use Youshido\GraphQL\Schema\Schema;
 
 class SchemaFactory {
 
@@ -14,15 +15,14 @@ class SchemaFactory {
      *
      * @param  ContainerInterface $container
      * @param  string             $requestedName
-     * @param  null|array         $options
      * @return object
      * @throws ContainerException if any other error occurs
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $container, $requestedName)
     {
         $config = $container->get("config");
 
-        if (!is_string($config['graphql']['schema'])) {
+        if (!isset($config['graphql']['schema'])) {
             throw ServiceNotCreatedException::invalidSchemaConfigurationProvided();
         }
 
@@ -41,7 +41,12 @@ class SchemaFactory {
         throw ServiceNotCreatedException::invalidSchemaProvided($schema);
     }
 
-    private function getSchemaFromClassname(string $className, ContainerInterface $container) : AbstractSchema
+    /**
+     * @param string             $className
+     * @param ContainerInterface $container
+     * @return AbstractSchema
+     */
+    private function getSchemaFromClassname($className, ContainerInterface $container)
     {
         if ($container->has($className)) {
             return $container->get($className);

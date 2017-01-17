@@ -9,11 +9,10 @@ use Zend\Diactoros\Response\JsonResponse;
 
 class GraphQLMiddleware
 {
-
     /**
      * @var string The graphql uri path to match against
      */
-    private $graphql_uri = "/graphql";
+    private $graphql_uri;
 
     /**
      * @var array The graphql headers
@@ -35,18 +34,19 @@ class GraphQLMiddleware
     private $processor;
 
     /**
-     * GraphQLAction constructor.
+     * GraphQLMiddleware constructor.
      *
-     * @param $processor Processor
+     * @param Processor $processor
+     * @param string    $graphql_uri
      */
-    public function __construct(Processor $processor)
+    public function __construct(Processor $processor, $graphql_uri = '/graphql')
     {
         $this->processor = $processor;
+        $this->graphql_uri = $graphql_uri;
     }
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $next = null)
     {
-
         if (!$this->isGraphQLRequest($request)) {
             return $next($request, $response);
         }
@@ -66,7 +66,8 @@ class GraphQLMiddleware
         return new JsonResponse($res);
     }
 
-    private function isGraphQLRequest(ServerRequestInterface $request) {
+    private function isGraphQLRequest(ServerRequestInterface $request)
+    {
         return $this->hasUri($request) || $this->hasGraphQLHeader($request);
     }
 
