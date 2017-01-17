@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: stefano
- * Date: 14/11/16
- * Time: 12.12
- */
 
 namespace GraphQLMiddleware\Field;
 
@@ -27,6 +21,10 @@ abstract class AbstractContainerAwareField extends AbstractField implements Cont
 
     private $validation_errors = [];
 
+    /**
+     * @param ContainerInterface $container
+     * @return $this
+     */
     public function setContainer(ContainerInterface $container)
     {
         $this->container = $container;
@@ -44,10 +42,10 @@ abstract class AbstractContainerAwareField extends AbstractField implements Cont
     /**
      * Customize validation exception based on type of exception
      *
-     * @param $e \Exception
-     * @param $field_name string
+     * @param \Exception $e
+     * @param string     $field_name
      */
-    private function prepareValidationException(\Exception $e, string $field_name) {
+    private function prepareValidationException(\Exception $e, $field_name) {
 
         if ($e instanceof NestedValidationException) {
 
@@ -88,7 +86,7 @@ abstract class AbstractContainerAwareField extends AbstractField implements Cont
      * @param ResolveInfo $info
      * @param bool        $stopOnFirstError
      */
-    public function validate(array $args, ResolveInfo $info, bool $stopOnFirstError = true)
+    public function validate(array $args, ResolveInfo $info, $stopOnFirstError = true)
     {
         $rules = $this->getValidationRules();
         foreach ($args as $field_name => $field_value) {
