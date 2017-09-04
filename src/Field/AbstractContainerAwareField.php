@@ -113,7 +113,7 @@ abstract class AbstractContainerAwareField extends AbstractField implements Cont
                     "Bad Request. Validation failed.",
                     403,
                     [
-                        "validation_erros" => $this->validation_errors
+                        "validation_errors" => $this->validation_errors
                     ]
                 )
             );
