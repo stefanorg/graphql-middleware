@@ -228,7 +228,7 @@ The server response is
   "errors": [
     {
       "message": "Bad Request. Validation failed.",
-      "validation_erros": {
+      "validation_errors": {
         "add": {
           "title": [
             "\"this is not @ very good title\" alphanumeric only allowed",
